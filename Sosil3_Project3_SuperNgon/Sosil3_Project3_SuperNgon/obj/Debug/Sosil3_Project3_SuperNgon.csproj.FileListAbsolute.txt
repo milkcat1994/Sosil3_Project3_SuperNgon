@@ -1,0 +1,9 @@
+D:\school\3\Linux\HW\HW3\Sosil3_Project3_SuperNgon\Sosil3_Project3_SuperNgon\bin\Debug\Sosil3_Project3_SuperNgon.exe.config
+D:\school\3\Linux\HW\HW3\Sosil3_Project3_SuperNgon\Sosil3_Project3_SuperNgon\bin\Debug\Sosil3_Project3_SuperNgon.exe
+D:\school\3\Linux\HW\HW3\Sosil3_Project3_SuperNgon\Sosil3_Project3_SuperNgon\bin\Debug\Sosil3_Project3_SuperNgon.pdb
+D:\school\3\Linux\HW\HW3\Sosil3_Project3_SuperNgon\Sosil3_Project3_SuperNgon\obj\Debug\Sosil3_Project3_SuperNgon.csprojResolveAssemblyReference.cache
+D:\school\3\Linux\HW\HW3\Sosil3_Project3_SuperNgon\Sosil3_Project3_SuperNgon\obj\Debug\Sosil3_Project3_SuperNgon.Form_Main.resources
+D:\school\3\Linux\HW\HW3\Sosil3_Project3_SuperNgon\Sosil3_Project3_SuperNgon\obj\Debug\Sosil3_Project3_SuperNgon.Properties.Resources.resources
+D:\school\3\Linux\HW\HW3\Sosil3_Project3_SuperNgon\Sosil3_Project3_SuperNgon\obj\Debug\Sosil3_Project3_SuperNgon.csproj.GenerateResource.Cache
+D:\school\3\Linux\HW\HW3\Sosil3_Project3_SuperNgon\Sosil3_Project3_SuperNgon\obj\Debug\Sosil3_Project3_SuperNgon.exe
+D:\school\3\Linux\HW\HW3\Sosil3_Project3_SuperNgon\Sosil3_Project3_SuperNgon\obj\Debug\Sosil3_Project3_SuperNgon.pdb
