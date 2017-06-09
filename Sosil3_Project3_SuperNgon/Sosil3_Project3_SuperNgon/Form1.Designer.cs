@@ -36,6 +36,7 @@
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.timer2 = new System.Windows.Forms.Timer(this.components);
             this.timer3 = new System.Windows.Forms.Timer(this.components);
+            this.timer4 = new System.Windows.Forms.Timer(this.components);
             this.SuspendLayout();
             // 
             // label_Title_1
@@ -57,7 +58,7 @@
             this.label_Title_2.Name = "label_Title_2";
             this.label_Title_2.Size = new System.Drawing.Size(265, 61);
             this.label_Title_2.TabIndex = 1;
-            this.label_Title_2.Text = "6-GON";
+            this.label_Title_2.Text = "5-GON";
             // 
             // label_Notice_Start
             // 
@@ -91,6 +92,11 @@
             this.timer3.Interval = 50;
             this.timer3.Tick += new System.EventHandler(this.timer3_Tick);
             // 
+            // timer4
+            // 
+            this.timer4.Interval = 1000;
+            this.timer4.Tick += new System.EventHandler(this.timer4_Tick);
+            // 
             // Form_Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
@@ -119,6 +125,7 @@
         private System.Windows.Forms.Timer timer1;
         private System.Windows.Forms.Timer timer2;
         private System.Windows.Forms.Timer timer3;
+        private System.Windows.Forms.Timer timer4;
     }
 }
 
