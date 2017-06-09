@@ -12,6 +12,7 @@ namespace Sosil3_Project3_SuperNgon
         private int width, height;
         private const float FI = (float)3.14;
         private const int little_radius_1 = 30;
+        private const int little_radius_2 = 10;
         //to draw center Polygon, save Point List
         private List<Point> Polygon_Point_List = new List<Point>();
         //to draw background color
@@ -25,9 +26,12 @@ namespace Sosil3_Project3_SuperNgon
         //game_time
         private int game_Time = 0;
         //player point, 기울기 to draw
-        private PointF[] p_point = new PointF[3];
-        private float inclination = 0;
-        private float dx, dy;
+        //player 중점
+        private Point pc;
+        //player 좌표
+        private PointF[] p_Point;
+        //방향키에 따른 player 각도
+        private int p_Move_Degree;
 
         private int change_Angle = 2;
         private int start_Angle = 0;
@@ -45,7 +49,7 @@ namespace Sosil3_Project3_SuperNgon
         public Form_Main()
         {
             InitializeComponent();
-
+            p_Move_Degree = n_number-1;
             //default setting n_number
             width = ClientSize.Width;
             height = ClientSize.Height;
@@ -54,7 +58,8 @@ namespace Sosil3_Project3_SuperNgon
             rand_Num = new Random(dt_Time.Millisecond);
 
             save_information(0);
-            save_pPoint();
+            save_pPoint(0, p_Move_Degree);
+
             background_Brush[0] = new SolidBrush(Color.GreenYellow);
             background_Brush[1] = new SolidBrush(Color.LawnGreen);
             background_Brush[2] = new SolidBrush(Color.LightGreen);
@@ -76,39 +81,45 @@ namespace Sosil3_Project3_SuperNgon
             this.timer3.Stop();
         }
 
-        private void save_pPoint()
+        private void save_pPoint(int start_angle, int p_Move_Degree)
         {
-            //기울기 저장
-            dx = Polygon_Point_List[0].X - Polygon_Point_List[n_number - 1].X;
-            dy = Polygon_Point_List[0].Y - Polygon_Point_List[n_number - 1].Y;
-            inclination = dx / dy;
+
+            p_Point = new PointF[3];
+
+            //save center x,y
+            int cx = (int)(width / 2.0);
+            int cy = (int)(height / 2.0);
+            //float pc_degree = (float)360.0 - ((float)180.0 / (float)n_number) + start_angle + p_Move_Degree * ((float)360.0 / (float)n_number);
+            float pc_degree = ((float)180.0 / (float)n_number);
+
+            float pc_radian = ((float)Math.PI * pc_degree / (float)(180.0));
+
             /*
-            //Player Point 저장하기
-            p_point[0].X = Polygon_Point_List[0].X - (dx / (float)9.0);
-            p_point[0].Y = Polygon_Point_List[0].Y - (dy / (float)9.0) * (float)3.0;
+            rx = ((px - rotx) * cos(rad) - (py - roty) * sin(rad)) + rotx;
+            ry = ((px - rotx) * sin(rad) + (py - roty) * cos(rad)) + roty;
 
-            p_point[1].X = Polygon_Point_List[0].X - (dx / (float)9.0)*(float)8.0;
-            p_point[1].Y = Polygon_Point_List[0].Y - (dy / (float)9.0)*(float)10.0;
-
-            //p_point[1].X = p_point[0].X - (dx / (float)9.0);
-            //p_point[1].Y = p_point[0].Y - (dy / (float)5.0*(float)2.0);
-
-
-            p_point[2].X = width;
-            p_point[2].Y = 0;
+            px , py => 원래 좌표
+            rotx, roty => 회전 중심점
             */
-            //가운데 중점과 한변을 가지는 삼각형 그리고
-            //한 직선에 대칭하여 좌표를 옮길것.
-            //Player Point 저장하기
-            p_point[0].X = Polygon_Point_List[0].X - (dx / (float)10.0);
-            p_point[0].Y = Polygon_Point_List[0].Y - (dy / (float)10.0) * (float)3.0;
+            int ex = Polygon_Point_List[p_Move_Degree].X;
+            int ey = Polygon_Point_List[p_Move_Degree].Y;
+            pc = new Point((int)((ex-cx) * Math.Cos(pc_radian)) - (int)((ey-cy)* Math.Sin(pc_radian)) + cx,
+                       (int)((ex - cx) * Math.Sin(pc_radian)) - (int)((ey - cy) * Math.Cos(pc_radian)) + cx);
 
-            p_point[1].X = Polygon_Point_List[0].X - (dx / (float)10.0) * (float)9.0;
-            p_point[1].Y = Polygon_Point_List[0].Y - (dy / (float)10.0) * (float)7.0;
-            
-            p_point[2].X = width;
-            p_point[2].Y = 0;
+            //Calculate Radian using degree(n_number)
+            int p_degree =360 / 3;
+            //p_point index
+            int i = 0;
+            //save new Point => need add Point arrary
+            start_angle += (120 - (int)(180.0 / n_number));
+            for (int angle = start_angle ; angle < start_angle + 360; angle += p_degree)
+            {
+                float radian = ((float)Math.PI * angle / (float)(180.0));
 
+                //save Next Point x,y -> using ex Point x,y
+                p_Point[i++] = new Point((int)(pc.X + little_radius_2 * Math.Cos(radian)),
+                    (int)(pc.Y + little_radius_2 * (float)Math.Sin(radian)));
+            }
         }
 
         //키 입력에 따른 다각형의 Point 저장
@@ -178,7 +189,7 @@ namespace Sosil3_Project3_SuperNgon
 
                 //Player 삼각형 그리기
                 pen = new Pen(Color.Black);
-                g.DrawPolygon(pen, p_point);
+                g.DrawPolygon(pen, p_Point);
             }
         }
 
@@ -208,6 +219,7 @@ namespace Sosil3_Project3_SuperNgon
         {
             start_Angle += change_Angle;
             save_information(start_Angle);
+            save_pPoint(start_Angle, p_Move_Degree);
             this.Invalidate();
             this.Update();
             this.Refresh();
@@ -222,9 +234,10 @@ namespace Sosil3_Project3_SuperNgon
                 if ((e.KeyCode == Keys.Down) && (n_number > 3))
                 {
                     n_number--;
+                    p_Move_Degree = n_number-1;
                     label_Title_2.Text = n_number.ToString() + "-GON";
                     save_information(start_Angle);
-                    save_pPoint();
+                    save_pPoint(start_Angle, p_Move_Degree);
                     this.Invalidate();
                     this.Update();
                     this.Refresh();
@@ -232,9 +245,10 @@ namespace Sosil3_Project3_SuperNgon
                 else if ((e.KeyCode == Keys.Up) && (n_number <= 21))
                 {
                     n_number++;
+                    p_Move_Degree = n_number-1;
                     label_Title_2.Text = n_number.ToString() + "-GON";
                     save_information(start_Angle);
-                    save_pPoint();
+                    save_pPoint(start_Angle, p_Move_Degree);
                     this.Invalidate();
                     this.Update();
                     this.Refresh();
@@ -259,17 +273,25 @@ namespace Sosil3_Project3_SuperNgon
             //4.3_score : 0.5
             else if (g_Type == game_Type.IN_GAME)
             {
-                //esc키 입력 후 게임 종료, 시작 화면으로 이동
+                //Left -> 왼쪽 이동
                 if (e.KeyCode == Keys.Left)
                 {
+                    p_Move_Degree -= 1;
+                    if (p_Move_Degree < 0)
+                        p_Move_Degree = n_number;
+                    save_pPoint(start_Angle, p_Move_Degree);
                     //start timer
                     this.Invalidate();
                     this.Update();
                     this.Refresh();
                 }
-                //esc키 입력 후 게임 종료, 시작 화면으로 이동
+                //Right -> 오른쪽 이동
                 else if (e.KeyCode == Keys.Right)
                 {
+                    p_Move_Degree += 1;
+                    if (p_Move_Degree >= n_number)
+                        p_Move_Degree = 0;
+                    save_pPoint(start_Angle, p_Move_Degree);
                     //start timer
                     this.Invalidate();
                     this.Update();
